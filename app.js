@@ -85,9 +85,35 @@ async function displayImages() {
     try {
         // Use a CORS proxy to bypass the CORS restriction
         const corsProxyUrl = 'https://corsproxy.io/?';
-        const apiUrl = 'https://43n45t1tu2.execute-api.eu-west-1.amazonaws.com/photosharing/images';
+        const apiUrl = 'https://kh9zdoyf0c.execute-api.eu-west-1.amazonaws.com/prod/thumbnails';
         const response = await fetch(corsProxyUrl + encodeURIComponent(apiUrl));
-        const imageList = await response.json();
+        const data = await response.json();
+        
+        // Debug the response structure
+        console.log("API Response:", data);
+        
+        // Handle different response formats
+        let imageList = [];
+        
+        // Check if response is an array
+        if (Array.isArray(data)) {
+            imageList = data;
+        } 
+        // Check if response has an 'images' property that's an array
+        else if (data && Array.isArray(data.images)) {
+            imageList = data.images;
+        }
+        // Check if response has a 'body' property (common in API Gateway responses)
+        else if (data && data.body) {
+            try {
+                // Try to parse body if it's a string
+                const bodyContent = typeof data.body === 'string' ? JSON.parse(data.body) : data.body;
+                imageList = Array.isArray(bodyContent) ? bodyContent : 
+                           (bodyContent.images && Array.isArray(bodyContent.images)) ? bodyContent.images : [];
+            } catch (e) {
+                console.error("Error parsing response body:", e);
+            }
+        }
 
         if (imageList.length === 0) {
             gallery.innerHTML = '<div class="empty-state">No images found</div>';
@@ -95,19 +121,29 @@ async function displayImages() {
         }
 
         gallery.innerHTML = '';
-        imageList.forEach(imageUrl => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
+        imageList.forEach(item => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
             
             let img = document.createElement('img');
-            // Apply CORS proxy to image URLs as well
-            img.src = 'https://corsproxy.io/?' + encodeURIComponent(imageUrl);
-            img.alt = 'Gallery Image';
-            img.loading = 'lazy';
+            // Handle if item is a string URL or an object with url property
+            const imageUrl = typeof item === 'string' ? item : (item.url || item.imageUrl || item.src || '');
             
-            item.appendChild(img);
-            gallery.appendChild(item);
+            if (imageUrl) {
+                // Apply CORS proxy to image URLs as well
+                img.src = 'https://corsproxy.io/?' + encodeURIComponent(imageUrl);
+                img.alt = 'Gallery Image';
+                img.loading = 'lazy';
+                
+                galleryItem.appendChild(img);
+                gallery.appendChild(galleryItem);
+            }
         });
+        
+        // If no images were added to the gallery
+        if (gallery.children.length === 0) {
+            gallery.innerHTML = '<div class="empty-state">No valid images found in the response</div>';
+        }
     } catch (error) {
         console.error("Error fetching images:", error);
         gallery.innerHTML = '<div class="empty-state">Failed to load images</div>';
