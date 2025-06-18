@@ -1,16 +1,6 @@
 const bucketName = 'photosharing-app';
 const bucketRegion = 'eu-west-1';
 
-// Check if user is logged in
-function checkAuth() {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-        window.location.href = 'login.html';
-        return false;
-    }
-    return true;
-}
-
 // Handle CORS errors for image loading
 window.addEventListener('error', function(e) {
     if (e.target.tagName === 'IMG') {
@@ -46,9 +36,6 @@ function showToast(message, type) {
 }
 
 async function uploadImage() {
-    // Check if user is logged in
-    if (!checkAuth()) return;
-    
     let fileInput = document.getElementById("uploadFile");
     let file = fileInput.files[0];
     
@@ -58,9 +45,9 @@ async function uploadImage() {
     }
     
     const button = document.querySelector('.btn');
-    const originalText = button.textContent;
+    const originalText = button.innerHTML;
     button.disabled = true;
-    button.textContent = 'Uploading...';
+    button.innerHTML = '<svg class="cloud-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path><polyline points="9 15 12 12 15 15"></polyline><line x1="12" y1="12" x2="12" y2="21"></line></svg> Uploading...';
     
     let fileName = encodeURIComponent(file.name);
     let uploadUrl = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${fileName}`;
@@ -87,14 +74,11 @@ async function uploadImage() {
         showToast("Upload failed", "error");
     } finally {
         button.disabled = false;
-        button.textContent = originalText;
+        button.innerHTML = originalText;
     }
 }
 
 async function displayImages() {
-    // Check if user is logged in
-    if (!checkAuth()) return;
-    
     let gallery = document.getElementById("gallery");
     gallery.innerHTML = '<div class="loading">Loading images</div>';
 

@@ -27,60 +27,12 @@ body {
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
     margin-bottom: 40px;
 }
 
 .header-content {
     text-align: center;
-    flex: 1;
-}
-
-.user-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-#userName {
-    font-weight: 500;
-    color: var(--dark);
-}
-
-.btn-text {
-    background: none;
-    border: none;
-    color: var(--primary);
-    font-weight: 500;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.btn-text:hover {
-    background-color: rgba(99, 102, 241, 0.1);
-}
-
-.sign-out-btn {
-    display: inline-block;
-    background-color: var(--secondary);
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background-color 0.2s, transform 0.2s;
-    box-shadow: 0 2px 5px rgba(244, 63, 94, 0.2);
-}
-
-.sign-out-btn:hover {
-    background-color: #e11d48;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(244, 63, 94, 0.3);
 }
 
 h1 {
