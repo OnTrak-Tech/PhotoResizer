@@ -1,6 +1,16 @@
 const bucketName = 'photosharing-app';
 const bucketRegion = 'eu-west-1';
 
+// Check if user is logged in
+function checkAuth() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return false;
+    }
+    return true;
+}
+
 // Handle CORS errors for image loading
 window.addEventListener('error', function(e) {
     if (e.target.tagName === 'IMG') {
@@ -36,6 +46,9 @@ function showToast(message, type) {
 }
 
 async function uploadImage() {
+    // Check if user is logged in
+    if (!checkAuth()) return;
+    
     let fileInput = document.getElementById("uploadFile");
     let file = fileInput.files[0];
     
@@ -79,6 +92,9 @@ async function uploadImage() {
 }
 
 async function displayImages() {
+    // Check if user is logged in
+    if (!checkAuth()) return;
+    
     let gallery = document.getElementById("gallery");
     gallery.innerHTML = '<div class="loading">Loading images</div>';
 
