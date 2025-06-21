@@ -49,15 +49,8 @@ async function uploadImage() {
     button.disabled = true;
     button.innerHTML = '<svg class="cloud-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path><polyline points="9 15 12 12 15 15"></polyline><line x1="12" y1="12" x2="12" y2="21"></line></svg> Uploading...';
     
-    // Get current user's Cognito sub (unique user ID)
-    const user = await Amplify.Auth.currentAuthenticatedUser();
-    const userId = user.attributes.sub;
-
-    // Construct user-specific S3 key
-    const fileName = encodeURIComponent(file.name);
-    const s3Key = `${userId}/${fileName}`;
-
-    let uploadUrl = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${s3Key}`;
+    let fileName = encodeURIComponent(file.name);
+    let uploadUrl = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${fileName}`;
 
     try {
         let response = await fetch(uploadUrl, {
@@ -156,16 +149,6 @@ async function displayImages() {
         gallery.innerHTML = '<div class="empty-state">Failed to load images</div>';
     }
 }
-
-async function signOut() {
-  try {
-    await Amplify.Auth.signOut();
-    window.location.href = 'https://photoresizer.auth.eu-west-1.amazoncognito.com/logout?client_id=2a879chr8h137gsqfpd24tccij&logout_uri=https://main.dbf10xveb0qjh.amplifyapp.com/';
-  } catch (error) {
-    console.error('Error signing out:', error);
-  }
-}
-
 
 // Sign out function
 function signOut() {
