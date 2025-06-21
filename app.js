@@ -157,7 +157,27 @@ async function displayImages() {
     }
 }
 
+async function signOut() {
+  try {
+    await Amplify.Auth.signOut();
+    window.location.href = 'https://photoresizer.auth.eu-west-1.amazoncognito.com/logout?client_id=2a879chr8h137gsqfpd24tccij&logout_uri=https://main.dbf10xveb0qjh.amplifyapp.com/';
+  } catch (error) {
+    console.error('Error signing out:', error);
+  }
+}
+
+
+// Sign out function
+function signOut() {
+    // Add sign out logic here
+    console.log('Sign out clicked');
+    // Hide auth controls
+    document.getElementById('auth-controls').style.display = 'none';
+}
+
 // Initialize the gallery when the page loads
 document.addEventListener('DOMContentLoaded', function() {
     displayImages();
+    // Show auth controls if needed
+    // document.getElementById('auth-controls').style.display = 'block';
 });

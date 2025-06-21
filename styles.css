@@ -306,3 +306,14 @@ input[type="file"] {
     clip: rect(1px, 1px, 1px, 1px);
     white-space: nowrap;
 }
+
+.logout-btn {
+    background: var(--secondary);
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    height: auto;
+}
+
+.logout-btn:hover {
+    background: #e11d48;
+}

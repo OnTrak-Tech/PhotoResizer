@@ -14,6 +14,10 @@
                 <h1>Photo Resizer</h1>
                 <p class="subtitle">Upload, resize and share your photos</p>
             </div>
+            <!-- ✅ Wrap Sign Out Button in a container -->
+            <div id="auth-controls" style="display: none;">
+              <button onclick="signOut()" class="btn logout-btn">Sign Out</button>
+            </div>
         </header>
         
         <div class="card">
@@ -42,6 +46,26 @@
     </div>
     
     <div id="toast" class="toast"></div>
+
+      <!-- Amplify Script + Config -->
+  <script src="https://unpkg.com/aws-amplify@5.0.4/dist/aws-amplify.min.js"></script>
+  <script>
+    Amplify.configure({
+      Auth: {
+        region: 'eu-west-1', // ✅ Replace with your real region
+        userPoolId: 'eu-west-1_MqFoaeRAT',         // ✅ Replace with your real User Pool ID
+        userPoolWebClientId: '2a879chr8h137gsqfpd24tccij', // ✅ Replace with your real App Client ID
+        oauth: {
+          domain: 'photoresizer.auth.eu-west-1.amazoncognito.com',
+          scope: ['email', 'openid', 'profile'],
+          redirectSignIn: 'https://main.dbf10xveb0qjh.amplifyapp.com/',
+          redirectSignOut: 'https://main.dbf10xveb0qjh.amplifyapp.com/',
+          responseType: 'code'
+        }
+      }
+    });
+  </script>
+
 
     <script src="app.js"></script>
 </body>
