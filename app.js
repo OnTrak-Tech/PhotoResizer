@@ -127,6 +127,19 @@ async function displayImages() {
             }
         }
 
+        // Filter images to show only current user's images
+        try {
+            const user = await Amplify.Auth.currentAuthenticatedUser();
+            const userId = user.attributes.sub;
+            imageList = imageList.filter(item => {
+                const imageUrl = typeof item === 'string' ? item : (item.url || item.imageUrl || item.src || '');
+                return imageUrl.includes(userId);
+            });
+        } catch (authError) {
+            // If not authenticated, show all images (fallback)
+            console.log('User not authenticated, showing all images');
+        }
+
         if (imageList.length === 0) {
             gallery.innerHTML = '<div class="empty-state">No images found</div>';
             return;
