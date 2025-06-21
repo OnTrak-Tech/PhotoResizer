@@ -23,7 +23,7 @@ Photo Resizer is a cloud-based application that allows users to upload images to
    - Saves thumbnails to the thumbnail bucket
 
 3. **AWS API Gateway**:
-   - Endpoint: `https://kh9zdoyf0c.execute-api.eu-west-1.amazonaws.com/prod`
+   - Endpoint: [Link](https://kh9zdoyf0c.execute-api.eu-west-1.amazonaws.com/prod)
    - Provides RESTful API to list thumbnails
    - Configured with appropriate CORS headers
 
@@ -127,7 +127,7 @@ The frontend is built with vanilla HTML, CSS, and JavaScript, following a clean 
 ## Usage
 
 1. **Access the application**:
-[Link](https://eu-west-1mqfoaerat.auth.eu-west-1.amazoncognito.com/login/continue?client_id=2a879chr8h137gsqfpd24tccij&redirect_uri=https%3A%2F%2Fmain.dbf10xveb0qjh.amplifyapp.com%2F&response_type=code&scope=email+openid+phone)
+[Live Link](https://eu-west-1mqfoaerat.auth.eu-west-1.amazoncognito.com/login/continue?client_id=2a879chr8h137gsqfpd24tccij&redirect_uri=https%3A%2F%2Fmain.dbf10xveb0qjh.amplifyapp.com%2F&response_type=code&scope=email+openid+phone)
 2. Sign in using your Cognito credentials
 3. Click "Choose Image" to select an image from your device
 4. Click "Upload" to upload the image to S3
